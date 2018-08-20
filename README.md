@@ -1,0 +1,1 @@
+# junit-json-resources-rule
