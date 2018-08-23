@@ -15,6 +15,7 @@ import static java.lang.String.format;
 
 public class ResourcesAwareTestUtils {
 
+    private static final String FAILED_READING_MSG = "Failed reading '%s'!";
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     private ResourcesAwareTestUtils() {
@@ -24,7 +25,7 @@ public class ResourcesAwareTestUtils {
         try {
             return objectMapper.readValue(getSystemResourceURL(filepath), clazz);
         } catch (IOException e) {
-            throw new IllegalStateException(format("Failed reading '%s'!", filepath), e);
+            throw new IllegalStateException(format(FAILED_READING_MSG, filepath), e);
         }
     }
 
@@ -32,15 +33,7 @@ public class ResourcesAwareTestUtils {
         try {
             return objectMapper.readValue(getSystemResourceURL(filepath), type);
         } catch (IOException e) {
-            throw new IllegalStateException(format("Failed reading '%s'!", filepath), e);
-        }
-    }
-
-    public static String toJsonString(Object object) {
-        try {
-            return objectMapper.writeValueAsString(object);
-        } catch (IOException e) {
-            throw new IllegalStateException("Failed converting to json string!", e);
+            throw new IllegalStateException(format(FAILED_READING_MSG, filepath), e);
         }
     }
 
@@ -49,7 +42,15 @@ public class ResourcesAwareTestUtils {
             URI uri = getSystemResourceURL(filepath).toURI();
             return new String(Files.readAllBytes(Paths.get(uri)));
         } catch (URISyntaxException | IOException e) {
-            throw new IllegalStateException(format("Failed reading '%s'!", filepath), e);
+            throw new IllegalStateException(format(FAILED_READING_MSG, filepath), e);
+        }
+    }
+
+    public static String toJsonString(Object object) {
+        try {
+            return objectMapper.writeValueAsString(object);
+        } catch (IOException e) {
+            throw new IllegalStateException("Failed converting to json string!", e);
         }
     }
 
