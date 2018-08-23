@@ -12,5 +12,5 @@ public @interface JsonResource {
     /**
      * File path without leading '/'
      */
-    String value();
+    String value() default "";
 }
